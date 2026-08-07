@@ -1,0 +1,25 @@
+{
+  "types": [
+    {"id": "definition", "zh": "定義", "en": "Definition", "color": "#2563eb"},
+    {"id": "assumption", "zh": "假設", "en": "Assumption", "color": "#9333ea"},
+    {"id": "method", "zh": "方法", "en": "Method", "color": "#0891b2"},
+    {"id": "construction", "zh": "建構", "en": "Construction", "color": "#0f766e"},
+    {"id": "result", "zh": "結果", "en": "Result", "color": "#15803d"},
+    {"id": "property", "zh": "性質", "en": "Property", "color": "#65a30d"},
+    {"id": "claim", "zh": "主張", "en": "Claim", "color": "#c2410c"},
+    {"id": "evidence", "zh": "證據", "en": "Evidence", "color": "#b45309"},
+    {"id": "dependency", "zh": "依賴", "en": "Dependency", "color": "#475569"},
+    {"id": "corollary", "zh": "延伸推論", "en": "Corollary", "color": "#be123c"},
+    {"id": "limitation", "zh": "限制", "en": "Limitation", "color": "#dc2626"},
+    {"id": "example", "zh": "範例", "en": "Example", "color": "#0369a1"},
+    {"id": "note", "zh": "註記", "en": "Note", "color": "#64748b"},
+    {"id": "summary", "zh": "總結", "en": "Summary", "color": "#1e293b"}
+  ],
+  "confidence": {
+    "reported": "論文直接陳述",
+    "inferred": "根據論文內容推論",
+    "editorial": "知識庫的教學整理",
+    "uncertain": "尚待確認"
+  }
+}
+
