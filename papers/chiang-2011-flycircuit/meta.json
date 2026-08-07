@@ -1,0 +1,21 @@
+{
+  "id": "chiang-2011-flycircuit",
+  "status": "reviewed",
+  "importance": "core",
+  "learning_order": 1,
+  "title": "Three-Dimensional Reconstruction of Brain-wide Wiring Networks in Drosophila at Single-Cell Resolution",
+  "title_zh": "果蠅全腦連結網路的單細胞解析度三維重建",
+  "year": 2011,
+  "venue": "Current Biology",
+  "doi": "10.1016/j.cub.2010.11.056",
+  "authors_short": "Ann-Shyn Chiang et al.",
+  "species": ["Drosophila melanogaster", "adult fly"],
+  "datasets": ["FlyCircuit"],
+  "scale": ["single-neuron imaging", "mesoscale interregional connectivity"],
+  "methods": ["confocal microscopy", "image registration", "segmentation", "skeleton tracing", "LPU mapping"],
+  "keywords": ["FlyCircuit", "standard brain", "LPU", "image registration", "neuron tracing", "brain atlas"],
+  "relations": [
+    {"target": "shih-2015-information-flow", "type": "provides_data_and_framework_for", "label_zh": "提供資料與標準腦架構"}
+  ]
+}
+

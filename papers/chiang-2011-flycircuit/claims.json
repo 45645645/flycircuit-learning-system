@@ -1,0 +1,55 @@
+{
+  "nodes": [
+    {
+      "id": "chiang2011-definition-lpu",
+      "type": "definition",
+      "title_zh": "局部處理單元",
+      "title_en": "Local Processing Unit (LPU)",
+      "statement": "具有自身局部神經元族群，並經由神經束向其他區域送出或接收資訊的操作性腦區單元。",
+      "source": {"pdf_page": 1, "section": "Introduction"},
+      "confidence": "reported",
+      "depends_on": []
+    },
+    {
+      "id": "chiang2011-method-registration",
+      "type": "method",
+      "title_zh": "標準腦影像配準",
+      "title_en": "Standard-brain image registration",
+      "statement": "以 anti-DLG 灰階影像為參考，將不同果蠅的神經元影像經全域及局部轉換放入共同座標。",
+      "source": {"pdf_page": 2, "section": "Generation of the Standard Model Brain", "figure": "Figures 2–4"},
+      "confidence": "reported",
+      "depends_on": []
+    },
+    {
+      "id": "chiang2011-construction-flycircuit",
+      "type": "construction",
+      "title_zh": "FlyCircuit 資料庫",
+      "title_en": "FlyCircuit database",
+      "statement": "將約 16,000 個單神經元影像及其標準腦座標、形態和註記整理為可搜尋與視覺化的資料庫。",
+      "source": {"pdf_page": 1, "section": "Summary", "figure": "Figure 1"},
+      "confidence": "reported",
+      "depends_on": ["chiang2011-method-registration"]
+    },
+    {
+      "id": "chiang2011-result-brain-map",
+      "type": "result",
+      "title_zh": "全腦中尺度架構",
+      "title_en": "Brain-wide mesoscale architecture",
+      "statement": "研究描述 41 個 LPU、6 個 hub 與 58 條 tract，形成後續腦區網路分析的空間框架。",
+      "source": {"pdf_page": 1, "section": "Summary"},
+      "confidence": "reported",
+      "depends_on": ["chiang2011-definition-lpu", "chiang2011-construction-flycircuit"]
+    },
+    {
+      "id": "chiang2011-limitation-mesoscale",
+      "type": "limitation",
+      "title_zh": "中尺度不等於突觸連結體",
+      "title_en": "Mesoscale map is not a synaptic connectome",
+      "statement": "光學影像與腦區投射可描述區域間架構，但不足以確認所有神經元之間的實際突觸。",
+      "source": {"pdf_page": 9, "section": "Discussion"},
+      "confidence": "editorial",
+      "depends_on": ["chiang2011-result-brain-map"]
+    }
+  ]
+}
+
