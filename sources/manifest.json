@@ -1,0 +1,16 @@
+{
+  "sources": [
+    {
+      "paper_id": "chiang-2011-flycircuit",
+      "filename": "CurrentBiology2011_Three-Dimensional Reconstruction of Brain-wide Wiring Networks in Drosophila at Single-Cell Resolution.pdf",
+      "role": "core",
+      "read_only": true
+    },
+    {
+      "paper_id": "shih-2015-information-flow",
+      "filename": "Current Biology 2015 Connectomeics-based analysis of information flow in the drosophila brain.pdf",
+      "role": "core",
+      "read_only": true
+    }
+  ]
+}
