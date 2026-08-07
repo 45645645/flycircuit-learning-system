@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>果蠅全腦連結網路的單細胞解析度三維重建 · FlyCircuit 學習系統</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header"><a href="../index.html">FlyCircuit Connectomics 學習系統</a></header>
+  
+    <nav class="topnav">
+      <a href="../index.html">學習路徑</a>
+      <a href="../map.html">層級心智圖</a>
+      <a href="../concepts.html">概念 Wiki</a>
+      <a href="../papers.html">論文目錄</a>
+    </nav>
+  <main>
+    <article class="paper-page">
+      <div class="eyebrow">核心論文 · 學習順序 1</div>
+      <h1>果蠅全腦連結網路的單細胞解析度三維重建</h1>
+      <p class="paper-title-en">Three-Dimensional Reconstruction of Brain-wide Wiring Networks in Drosophila at Single-Cell Resolution</p>
+      <div class="paper-facts">
+        <span>2011</span><span>Current Biology</span>
+        <a href="https://doi.org/10.1016/j.cub.2010.11.056">DOI</a>
+      </div>
+      <div class="tags"><span>FlyCircuit</span><span>standard brain</span><span>LPU</span><span>image registration</span><span>neuron tracing</span><span>brain atlas</span></div>
+      <section class="reading-content"><h1 id="果蠅全腦連結網路的單細胞解析度三維重建">果蠅全腦連結網路的單細胞解析度三維重建</h1>
+<h2 id="一句話總結">一句話總結</h2>
+<p>研究團隊將約 16,000 個成蟲果蠅單神經元影像配準到共同的標準腦座標，建立 FlyCircuit 資料庫，並以局部處理單元（Local Processing Unit, LPU）、hub 與神經束（tract）描述全腦的中尺度連結架構。</p>
+<h2 id="這篇論文在學習系統中的位置">這篇論文在學習系統中的位置</h2>
+<p>這是整條學習路徑的基礎建設。2015 年的資訊流網路並不是直接從零開始，而是依賴本研究建立的標準腦、單神經元影像、腦區定義與 FlyCircuit 資料。</p>
+<h2 id="研究問題">研究問題</h2>
+<ul>
+<li>如何把來自不同個體的單神經元影像放入同一個座標系？</li>
+<li>如何用單神經元形態建立全腦尺度的中尺度 wiring map？</li>
+<li>是否能定義具有局部神經元族群與長程輸入輸出的功能單元？</li>
+</ul>
+<h2 id="方法層級">方法層級</h2>
+<h3 id="影像取得與單神經元分割">影像取得與單神經元分割</h3>
+<p>研究以螢光標記與共軛焦顯微鏡取得三維影像，再以半自動方式分割個別神經元。原始研究使用 Amira 4.1.2；這是歷史方法資訊，不代表現代教材必須採用同一套軟體。</p>
+<h3 id="標準腦與影像配準">標準腦與影像配準</h3>
+<p>團隊建立雌、雄成蟲的標準模型腦，使用 anti-DLG 灰階影像作為配準參考。先做全域仿射轉換，再對部分結構做局部調整，使不同個體的神經元可以在共同座標中比較。</p>
+<h3 id="骨架追蹤與空間編碼">骨架追蹤與空間編碼</h3>
+<p>由 soma 出發追蹤神經纖維骨架，以降低大量三維影像的記憶體需求，並計算神經元在各 neuropil 中的空間分布。</p>
+<h3 id="lpu-建立">LPU 建立</h3>
+<p>候選 LPU 的判斷結合局部神經元（local neuron, LN）聚集、空間邊界及長程神經束連接。研究最後描述 41 個 LPU、6 個 hub 與 58 條 tract。</p>
+<h2 id="關鍵結果">關鍵結果</h2>
+<ul>
+<li>建立約 16,000 個單神經元的三維資料集合。</li>
+<li>建立 FlyCircuit 開放式影像資料庫與標準腦座標。</li>
+<li>找出跨個體相對穩定的局部神經元聚集與投射模式。</li>
+<li>提供後續從單神經元影像建構腦區網路的資料與空間框架。</li>
+</ul>
+<h2 id="必須保留的限制">必須保留的限制</h2>
+<ul>
+<li>單細胞解析度是指可以區分與重建單一神經元影像，不代表已解析所有突觸。</li>
+<li>LPU 是根據局部神經元分布與長程連接所建立的操作性單元，不等同於唯一可能的腦區分割。</li>
+<li>配準可以降低個體差異，但不能消除所有形態變異或轉換誤差。</li>
+<li>部分 segmentation、soma identification 與局部配準仍包含人工介入。</li>
+</ul>
+<h2 id="與-2015-論文的關係">與 2015 論文的關係</h2>
+<p>2011 年研究建立「影像如何進入共同空間」及「腦區如何被定義」；2015 年研究則加入神經元極性與網路分析，將這些資料轉換成有向加權 connectome。</p></section>
+      <section>
+        <h2>結構化知識節點</h2>
+        <p>以下節點用來產生心智圖及依賴關係。每個節點都保留來源與判讀層級。</p>
+        <div class="claim-grid">
+        <article class="claim-card" id="chiang2011-definition-lpu" style="--type-color:#2563eb">
+          <div class="claim-type">定義 · Definition</div>
+          <h3>局部處理單元</h3>
+          <p class="term-en">Local Processing Unit (LPU)</p>
+          <p>具有自身局部神經元族群，並經由神經束向其他區域送出或接收資訊的操作性腦區單元。</p>
+          <p class="source">來源：PDF p. 1 · Introduction</p>
+          <p class="confidence">標記：論文直接陳述</p>
+          
+        </article>
+        <article class="claim-card" id="chiang2011-method-registration" style="--type-color:#0891b2">
+          <div class="claim-type">方法 · Method</div>
+          <h3>標準腦影像配準</h3>
+          <p class="term-en">Standard-brain image registration</p>
+          <p>以 anti-DLG 灰階影像為參考，將不同果蠅的神經元影像經全域及局部轉換放入共同座標。</p>
+          <p class="source">來源：PDF p. 2 · Generation of the Standard Model Brain · Figures 2–4</p>
+          <p class="confidence">標記：論文直接陳述</p>
+          
+        </article>
+        <article class="claim-card" id="chiang2011-construction-flycircuit" style="--type-color:#0f766e">
+          <div class="claim-type">建構 · Construction</div>
+          <h3>FlyCircuit 資料庫</h3>
+          <p class="term-en">FlyCircuit database</p>
+          <p>將約 16,000 個單神經元影像及其標準腦座標、形態和註記整理為可搜尋與視覺化的資料庫。</p>
+          <p class="source">來源：PDF p. 1 · Summary · Figure 1</p>
+          <p class="confidence">標記：論文直接陳述</p>
+          <details><summary>依賴節點</summary><ul><li><a href="../map.html#chiang2011-method-registration">chiang2011-method-registration</a></li></ul></details>
+        </article>
+        <article class="claim-card" id="chiang2011-result-brain-map" style="--type-color:#15803d">
+          <div class="claim-type">結果 · Result</div>
+          <h3>全腦中尺度架構</h3>
+          <p class="term-en">Brain-wide mesoscale architecture</p>
+          <p>研究描述 41 個 LPU、6 個 hub 與 58 條 tract，形成後續腦區網路分析的空間框架。</p>
+          <p class="source">來源：PDF p. 1 · Summary</p>
+          <p class="confidence">標記：論文直接陳述</p>
+          <details><summary>依賴節點</summary><ul><li><a href="../map.html#chiang2011-definition-lpu">chiang2011-definition-lpu</a></li><li><a href="../map.html#chiang2011-construction-flycircuit">chiang2011-construction-flycircuit</a></li></ul></details>
+        </article>
+        <article class="claim-card" id="chiang2011-limitation-mesoscale" style="--type-color:#dc2626">
+          <div class="claim-type">限制 · Limitation</div>
+          <h3>中尺度不等於突觸連結體</h3>
+          <p class="term-en">Mesoscale map is not a synaptic connectome</p>
+          <p>光學影像與腦區投射可描述區域間架構，但不足以確認所有神經元之間的實際突觸。</p>
+          <p class="source">來源：PDF p. 9 · Discussion</p>
+          <p class="confidence">標記：知識庫的教學整理</p>
+          <details><summary>依賴節點</summary><ul><li><a href="../map.html#chiang2011-result-brain-map">chiang2011-result-brain-map</a></li></ul></details>
+        </article></div>
+      </section>
+      <script type="application/json" id="paper-meta">{"id": "chiang-2011-flycircuit", "status": "reviewed", "importance": "core", "learning_order": 1, "title": "Three-Dimensional Reconstruction of Brain-wide Wiring Networks in Drosophila at Single-Cell Resolution", "title_zh": "果蠅全腦連結網路的單細胞解析度三維重建", "year": 2011, "venue": "Current Biology", "doi": "10.1016/j.cub.2010.11.056", "authors_short": "Ann-Shyn Chiang et al.", "species": ["Drosophila melanogaster", "adult fly"], "datasets": ["FlyCircuit"], "scale": ["single-neuron imaging", "mesoscale interregional connectivity"], "methods": ["confocal microscopy", "image registration", "segmentation", "skeleton tracing", "LPU mapping"], "keywords": ["FlyCircuit", "standard brain", "LPU", "image registration", "neuron tracing", "brain atlas"], "relations": [{"target": "shih-2015-information-flow", "type": "provides_data_and_framework_for", "label_zh": "提供資料與標準腦架構"}]}</script>
+    </article></main>
+  <footer>由結構化論文資料自動建置 · 原始 PDF 保持唯讀</footer>
+  <script src="../assets/app.js"></script>
+</body>
+</html>

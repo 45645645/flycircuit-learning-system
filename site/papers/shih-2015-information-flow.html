@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>以連結體學分析果蠅腦中的資訊流 · FlyCircuit 學習系統</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header"><a href="../index.html">FlyCircuit Connectomics 學習系統</a></header>
+  
+    <nav class="topnav">
+      <a href="../index.html">學習路徑</a>
+      <a href="../map.html">層級心智圖</a>
+      <a href="../concepts.html">概念 Wiki</a>
+      <a href="../papers.html">論文目錄</a>
+    </nav>
+  <main>
+    <article class="paper-page">
+      <div class="eyebrow">核心論文 · 學習順序 2</div>
+      <h1>以連結體學分析果蠅腦中的資訊流</h1>
+      <p class="paper-title-en">Connectomics-Based Analysis of Information Flow in the Drosophila Brain</p>
+      <div class="paper-facts">
+        <span>2015</span><span>Current Biology</span>
+        <a href="https://doi.org/10.1016/j.cub.2015.03.021">DOI</a>
+      </div>
+      <div class="tags"><span>information flow</span><span>LPU</span><span>directed network</span><span>modularity</span><span>small-world</span><span>rich club</span><span>network loop</span></div>
+      <section class="reading-content"><h1 id="以連結體學分析果蠅腦中的資訊流">以連結體學分析果蠅腦中的資訊流</h1>
+<h2 id="一句話總結">一句話總結</h2>
+<p>研究使用 FlyCircuit 1.1 中 12,995 個雌性果蠅投射神經元，依形態推測 dendrite／axon 極性，建立 49 個局部處理單元（Local Processing Unit, LPU）的有向加權網路，分析模組、小世界、富俱樂部與迴路結構，進而提出可能的腦內資訊流模型。</p>
+<h2 id="前置依賴">前置依賴</h2>
+<p>閱讀本篇前，應先理解 2011 論文中的標準腦、影像配準、單神經元骨架、LPU 與 FlyCircuit。這篇論文並沒有直接觀察整個果蠅腦的所有 synapse，而是把已配準的單神經元投射轉換成 LPU 層級網路。</p>
+<h2 id="研究問題">研究問題</h2>
+<ul>
+<li>果蠅全腦中尺度網路是否具有階層、模組與小世界結構？</li>
+<li>哪些 LPU 在不同感覺模組間扮演整合角色？</li>
+<li>富俱樂部及迴路是否能提示感覺輸入到動作輸出的資訊流？</li>
+</ul>
+<h2 id="從影像到網路">從影像到網路</h2>
+<h3 id="神經元極性">神經元極性</h3>
+<p>研究以 SPIN（skeleton-based polarity identification for neurons）根據形態特徵分類神經元結構域的 dendrite／axon 極性。主要假設是訊息由 dendrite 流向 axon。論文採用 PB training neuron 所訓練的分類器；補充資料報告其在不同測試神經元集合的準確率約為 84%–92%。</p>
+<h3 id="節點">節點</h3>
+<p>節點是 43 個 LPU 與 6 個 interconnecting unit，共 49 個腦區單元。這是中尺度網路，不是 12,995 個神經元各自作為節點。</p>
+<h3 id="有向邊與權重">有向邊與權重</h3>
+<p>若一個神經元的 dendrite 位於 LPU D、axon 位於 LPU X，便對 D → X 的連線作出貢獻。單一神經元的權重使用 dendritic 與 axonal terminal counts 的幾何平均，再對所有神經元加總成 adjacency matrix。</p>
+<h2 id="關鍵結果">關鍵結果</h2>
+<h3 id="五個功能模組">五個功能模組</h3>
+<p>模組度最大化得到嗅覺、聽覺／機械感覺、左視覺、右視覺與前運動中心五個模組。這些模組與已知感覺功能具有對應，但功能名稱也包含作者根據結構與既有知識所做的解釋。</p>
+<h3 id="小世界結構">小世界結構</h3>
+<p>研究比較原始網路及隨機化網路的 clustering 與 path length，報告果蠅腦網路具有 small-world characteristics。此判斷取決於網路二值化、權重處理與隨機基準的定義。</p>
+<h3 id="富俱樂部組織">富俱樂部組織</h3>
+<p>高連接度 LPU 之間形成比隨機網路更密集的 rich-club organization。其成員橫跨不同感覺中心，並被作者解讀為可能的感覺運動整合核心。</p>
+<h3 id="迴路與資訊流">迴路與資訊流</h3>
+<p>研究辨識模組內及模組間的二、三、四節點迴路，並以網路結構提出感覺訊息經過整合後到達 motor／pre-motor centers 的可能路徑。</p>
+<h2 id="重要解讀界線">重要解讀界線</h2>
+<ul>
+<li>information flow 是由形態極性與網路拓樸推定，不是全腦活動的直接量測。</li>
+<li>edge weight 表示樣本影像中 terminal contributions 的彙整，不等同 synapse count。</li>
+<li>模組名稱與功能詮釋結合網路結果及既有神經解剖知識。</li>
+<li>rich club、centrality 與強連線可以提出候選重要區域，但不能單獨證明功能必要性。</li>
+</ul>
+<h2 id="與-2011-論文的關係">與 2011 論文的關係</h2>
+<p>2011 提供空間座標、單神經元資料和 LPU 架構；2015 加入 polarity prediction、adjacency matrix 與 complex network analysis，形成由資料建設走向資訊流假說的第二階段。</p></section>
+      <section>
+        <h2>結構化知識節點</h2>
+        <p>以下節點用來產生心智圖及依賴關係。每個節點都保留來源與判讀層級。</p>
+        <div class="claim-grid">
+        <article class="claim-card" id="shih2015-assumption-polarity" style="--type-color:#9333ea">
+          <div class="claim-type">假設 · Assumption</div>
+          <h3>樹突至軸突的資訊方向</h3>
+          <p class="term-en">Dendrite-to-axon information direction</p>
+          <p>主要資訊被假設由 dendrite 傳向 axon，因此形態極性可用來指定網路邊的方向。</p>
+          <p class="source">來源：PDF p. 2 · Introduction</p>
+          <p class="confidence">標記：論文直接陳述</p>
+          
+        </article>
+        <article class="claim-card" id="shih2015-method-spin" style="--type-color:#0891b2">
+          <div class="claim-type">方法 · Method</div>
+          <h3>SPIN 神經元極性預測</h3>
+          <p class="term-en">SPIN polarity prediction</p>
+          <p>SPIN 使用骨架形態特徵分類神經元結構域的 dendrite 或 axon 極性。</p>
+          <p class="source">來源：PDF p. 33 · Supplemental Experimental Procedures: Neuron Polarity</p>
+          <p class="confidence">標記：論文直接陳述</p>
+          <details><summary>依賴節點</summary><ul><li><a href="../map.html#shih2015-assumption-polarity">shih2015-assumption-polarity</a></li></ul></details>
+        </article>
+        <article class="claim-card" id="shih2015-construction-network" style="--type-color:#0f766e">
+          <div class="claim-type">建構 · Construction</div>
+          <h3>49 節點有向加權網路</h3>
+          <p class="term-en">49-node directed weighted network</p>
+          <p>以 12,995 個 projection neurons 對 49 個 LPU／interconnecting units 之間的有向邊累積權重。</p>
+          <p class="source">來源：PDF p. 9 · Experimental Procedures: Network Construction</p>
+          <p class="confidence">標記：論文直接陳述</p>
+          <details><summary>依賴節點</summary><ul><li><a href="../map.html#chiang2011-definition-lpu">chiang2011-definition-lpu</a></li><li><a href="../map.html#chiang2011-construction-flycircuit">chiang2011-construction-flycircuit</a></li><li><a href="../map.html#shih2015-method-spin">shih2015-method-spin</a></li></ul></details>
+        </article>
+        <article class="claim-card" id="shih2015-result-five-modules" style="--type-color:#15803d">
+          <div class="claim-type">結果 · Result</div>
+          <h3>五個功能模組</h3>
+          <p class="term-en">Five functional modules</p>
+          <p>模組度分析將網路分成嗅覺、聽覺／機械感覺、左右視覺與前運動中心。</p>
+          <p class="source">來源：PDF p. 4 · Modular Structure · Figure 2</p>
+          <p class="confidence">標記：論文直接陳述</p>
+          <details><summary>依賴節點</summary><ul><li><a href="../map.html#shih2015-construction-network">shih2015-construction-network</a></li></ul></details>
+        </article>
+        <article class="claim-card" id="shih2015-property-small-world" style="--type-color:#65a30d">
+          <div class="claim-type">性質 · Property</div>
+          <h3>小世界特性</h3>
+          <p class="term-en">Small-world characteristics</p>
+          <p>相較隨機化網路，果蠅 LPU 網路呈現較強 clustering 且維持相近 normalized path length。</p>
+          <p class="source">來源：PDF p. 3 · Basic Measurements · Figure 1F</p>
+          <p class="confidence">標記：論文直接陳述</p>
+          <details><summary>依賴節點</summary><ul><li><a href="../map.html#shih2015-construction-network">shih2015-construction-network</a></li></ul></details>
+        </article>
+        <article class="claim-card" id="shih2015-property-rich-club" style="--type-color:#65a30d">
+          <div class="claim-type">性質 · Property</div>
+          <h3>富俱樂部組織</h3>
+          <p class="term-en">Rich-club organization</p>
+          <p>高連接度節點之間形成相對於隨機網路更密集的連接。</p>
+          <p class="source">來源：PDF p. 7 · Rich Club · Figure 4</p>
+          <p class="confidence">標記：論文直接陳述</p>
+          <details><summary>依賴節點</summary><ul><li><a href="../map.html#shih2015-construction-network">shih2015-construction-network</a></li></ul></details>
+        </article>
+        <article class="claim-card" id="shih2015-result-loops" style="--type-color:#15803d">
+          <div class="claim-type">結果 · Result</div>
+          <h3>模組內與模組間迴路</h3>
+          <p class="term-en">Intra- and inter-modular loops</p>
+          <p>網路中存在多種二、三、四節點迴路，可能支援 recurrent 或 reverberant information flow。</p>
+          <p class="source">來源：PDF p. 6 · Loops · Figure 3</p>
+          <p class="confidence">標記：論文直接陳述</p>
+          <details><summary>依賴節點</summary><ul><li><a href="../map.html#shih2015-construction-network">shih2015-construction-network</a></li><li><a href="../map.html#shih2015-result-five-modules">shih2015-result-five-modules</a></li></ul></details>
+        </article>
+        <article class="claim-card" id="shih2015-claim-information-flow" style="--type-color:#c2410c">
+          <div class="claim-type">主張 · Claim</div>
+          <h3>感覺至動作的資訊流模型</h3>
+          <p class="term-en">Sensory-to-motor information-flow model</p>
+          <p>模組、rich club 與迴路的整體架構被用來提出感覺訊息匯入 motor／pre-motor centers 的候選路徑。</p>
+          <p class="source">來源：PDF p. 8 · Information Flow during Behaviors · Figure 4</p>
+          <p class="confidence">標記：根據論文內容推論</p>
+          <details><summary>依賴節點</summary><ul><li><a href="../map.html#shih2015-result-five-modules">shih2015-result-five-modules</a></li><li><a href="../map.html#shih2015-property-rich-club">shih2015-property-rich-club</a></li><li><a href="../map.html#shih2015-result-loops">shih2015-result-loops</a></li></ul></details>
+        </article>
+        <article class="claim-card" id="shih2015-limitation-inferred-connectivity" style="--type-color:#dc2626">
+          <div class="claim-type">限制 · Limitation</div>
+          <h3>形態推定連線的限制</h3>
+          <p class="term-en">Limitation of morphology-inferred connectivity</p>
+          <p>網路邊與方向來自已配準形態、terminal counts 與 polarity prediction，不能直接等同於完整突觸連線或實際神經活動。</p>
+          <p class="source">來源：PDF p. 8 · Discussion</p>
+          <p class="confidence">標記：知識庫的教學整理</p>
+          <details><summary>依賴節點</summary><ul><li><a href="../map.html#shih2015-method-spin">shih2015-method-spin</a></li><li><a href="../map.html#shih2015-construction-network">shih2015-construction-network</a></li><li><a href="../map.html#shih2015-claim-information-flow">shih2015-claim-information-flow</a></li></ul></details>
+        </article></div>
+      </section>
+      <script type="application/json" id="paper-meta">{"id": "shih-2015-information-flow", "status": "reviewed", "importance": "core", "learning_order": 2, "title": "Connectomics-Based Analysis of Information Flow in the Drosophila Brain", "title_zh": "以連結體學分析果蠅腦中的資訊流", "year": 2015, "venue": "Current Biology", "doi": "10.1016/j.cub.2015.03.021", "authors_short": "Chi-Tin Shih et al.", "species": ["Drosophila melanogaster", "adult female"], "datasets": ["FlyCircuit 1.1"], "scale": ["mesoscale connectome", "LPU network"], "methods": ["SPIN polarity prediction", "directed weighted network", "modularity analysis", "small-world analysis", "rich-club analysis", "loop analysis"], "keywords": ["information flow", "LPU", "directed network", "modularity", "small-world", "rich club", "network loop"], "relations": [{"target": "chiang-2011-flycircuit", "type": "uses_data_and_framework_from", "label_zh": "使用資料與標準腦架構"}]}</script>
+    </article></main>
+  <footer>由結構化論文資料自動建置 · 原始 PDF 保持唯讀</footer>
+  <script src="../assets/app.js"></script>
+</body>
+</html>
