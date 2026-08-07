@@ -1,0 +1,21 @@
+{
+  "id": "shih-2015-information-flow",
+  "status": "reviewed",
+  "importance": "core",
+  "learning_order": 2,
+  "title": "Connectomics-Based Analysis of Information Flow in the Drosophila Brain",
+  "title_zh": "以連結體學分析果蠅腦中的資訊流",
+  "year": 2015,
+  "venue": "Current Biology",
+  "doi": "10.1016/j.cub.2015.03.021",
+  "authors_short": "Chi-Tin Shih et al.",
+  "species": ["Drosophila melanogaster", "adult female"],
+  "datasets": ["FlyCircuit 1.1"],
+  "scale": ["mesoscale connectome", "LPU network"],
+  "methods": ["SPIN polarity prediction", "directed weighted network", "modularity analysis", "small-world analysis", "rich-club analysis", "loop analysis"],
+  "keywords": ["information flow", "LPU", "directed network", "modularity", "small-world", "rich club", "network loop"],
+  "relations": [
+    {"target": "chiang-2011-flycircuit", "type": "uses_data_and_framework_from", "label_zh": "使用資料與標準腦架構"}
+  ]
+}
+

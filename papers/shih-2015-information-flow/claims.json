@@ -1,0 +1,94 @@
+{
+  "nodes": [
+    {
+      "id": "shih2015-assumption-polarity",
+      "type": "assumption",
+      "title_zh": "樹突至軸突的資訊方向",
+      "title_en": "Dendrite-to-axon information direction",
+      "statement": "主要資訊被假設由 dendrite 傳向 axon，因此形態極性可用來指定網路邊的方向。",
+      "source": {"pdf_page": 2, "section": "Introduction"},
+      "confidence": "reported",
+      "depends_on": []
+    },
+    {
+      "id": "shih2015-method-spin",
+      "type": "method",
+      "title_zh": "SPIN 神經元極性預測",
+      "title_en": "SPIN polarity prediction",
+      "statement": "SPIN 使用骨架形態特徵分類神經元結構域的 dendrite 或 axon 極性。",
+      "source": {"pdf_page": 33, "section": "Supplemental Experimental Procedures: Neuron Polarity"},
+      "confidence": "reported",
+      "depends_on": ["shih2015-assumption-polarity"]
+    },
+    {
+      "id": "shih2015-construction-network",
+      "type": "construction",
+      "title_zh": "49 節點有向加權網路",
+      "title_en": "49-node directed weighted network",
+      "statement": "以 12,995 個 projection neurons 對 49 個 LPU／interconnecting units 之間的有向邊累積權重。",
+      "source": {"pdf_page": 9, "section": "Experimental Procedures: Network Construction", "supplement_page": 32},
+      "confidence": "reported",
+      "depends_on": ["chiang2011-definition-lpu", "chiang2011-construction-flycircuit", "shih2015-method-spin"]
+    },
+    {
+      "id": "shih2015-result-five-modules",
+      "type": "result",
+      "title_zh": "五個功能模組",
+      "title_en": "Five functional modules",
+      "statement": "模組度分析將網路分成嗅覺、聽覺／機械感覺、左右視覺與前運動中心。",
+      "source": {"pdf_page": 4, "section": "Modular Structure", "figure": "Figure 2"},
+      "confidence": "reported",
+      "depends_on": ["shih2015-construction-network"]
+    },
+    {
+      "id": "shih2015-property-small-world",
+      "type": "property",
+      "title_zh": "小世界特性",
+      "title_en": "Small-world characteristics",
+      "statement": "相較隨機化網路，果蠅 LPU 網路呈現較強 clustering 且維持相近 normalized path length。",
+      "source": {"pdf_page": 3, "section": "Basic Measurements", "figure": "Figure 1F"},
+      "confidence": "reported",
+      "depends_on": ["shih2015-construction-network"]
+    },
+    {
+      "id": "shih2015-property-rich-club",
+      "type": "property",
+      "title_zh": "富俱樂部組織",
+      "title_en": "Rich-club organization",
+      "statement": "高連接度節點之間形成相對於隨機網路更密集的連接。",
+      "source": {"pdf_page": 7, "section": "Rich Club", "figure": "Figure 4"},
+      "confidence": "reported",
+      "depends_on": ["shih2015-construction-network"]
+    },
+    {
+      "id": "shih2015-result-loops",
+      "type": "result",
+      "title_zh": "模組內與模組間迴路",
+      "title_en": "Intra- and inter-modular loops",
+      "statement": "網路中存在多種二、三、四節點迴路，可能支援 recurrent 或 reverberant information flow。",
+      "source": {"pdf_page": 6, "section": "Loops", "figure": "Figure 3"},
+      "confidence": "reported",
+      "depends_on": ["shih2015-construction-network", "shih2015-result-five-modules"]
+    },
+    {
+      "id": "shih2015-claim-information-flow",
+      "type": "claim",
+      "title_zh": "感覺至動作的資訊流模型",
+      "title_en": "Sensory-to-motor information-flow model",
+      "statement": "模組、rich club 與迴路的整體架構被用來提出感覺訊息匯入 motor／pre-motor centers 的候選路徑。",
+      "source": {"pdf_page": 8, "section": "Information Flow during Behaviors", "figure": "Figure 4"},
+      "confidence": "inferred",
+      "depends_on": ["shih2015-result-five-modules", "shih2015-property-rich-club", "shih2015-result-loops"]
+    },
+    {
+      "id": "shih2015-limitation-inferred-connectivity",
+      "type": "limitation",
+      "title_zh": "形態推定連線的限制",
+      "title_en": "Limitation of morphology-inferred connectivity",
+      "statement": "網路邊與方向來自已配準形態、terminal counts 與 polarity prediction，不能直接等同於完整突觸連線或實際神經活動。",
+      "source": {"pdf_page": 8, "section": "Discussion"},
+      "confidence": "editorial",
+      "depends_on": ["shih2015-method-spin", "shih2015-construction-network", "shih2015-claim-information-flow"]
+    }
+  ]
+}
