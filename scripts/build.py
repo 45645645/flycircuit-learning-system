@@ -84,7 +84,7 @@ def page(title: str, body: str, depth: int = 0) -> str:
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{html.escape(title)} · FlyCircuit 學習系統</title>
-  <link rel="stylesheet" href="{prefix}assets/style.css">
+  <link rel="stylesheet" href="{prefix}assets/style.css?v=20260819-ui2">
 </head>
 <body>
   <a class="skip-link" href="#main-content">跳到主要內容</a>
@@ -92,7 +92,7 @@ def page(title: str, body: str, depth: int = 0) -> str:
   {nav}
   <main id="main-content" tabindex="-1">{body}</main>
   <footer>由結構化論文資料自動建置 · 原始 PDF 保持唯讀</footer>
-  <script src="{prefix}assets/app.js"></script>
+  <script src="{prefix}assets/app.js?v=20260819-ui2"></script>
 </body>
 </html>"""
 
