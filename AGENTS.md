@@ -8,4 +8,4 @@
 6. 新論文先進入 draft，通過檢查後才能標成 reviewed。
 7. 關聯使用有方向、有類型的 edge，不使用意義模糊的單一 `related`。
 8. 新增或修改內容後必須執行 `scripts/build.py` 及 `scripts/check.py`。
-
+9. 處理網頁排版、響應式設計、圖片、動畫、互動或其他媒體呈現時，必須先完整閱讀 `WEB-PRESENTATION.md`，並依其中的修改範圍與驗證流程執行。
