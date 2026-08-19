@@ -8,6 +8,12 @@
   --accent: #165d8f;
   --accent-dark: #0b3858;
   --warm: #c5632f;
+  --driver-th: #c2410c;
+  --driver-tdc2: #b45309;
+  --driver-trh: #047857;
+  --driver-vglut: #1d4ed8;
+  --driver-gad1: #7e22ce;
+  --driver-fru: #be185d;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -15,11 +21,14 @@
 html { scroll-behavior: smooth; }
 body { margin: 0; color: var(--ink); background: var(--paper); line-height: 1.7; }
 a { color: var(--accent); }
+.skip-link { position: fixed; top: .5rem; left: .5rem; z-index: 100; padding: .65rem .9rem; border-radius: .45rem; background: white; color: var(--accent-dark); font-weight: 800; transform: translateY(-160%); }
+.skip-link:focus { transform: translateY(0); }
+:focus-visible { outline: 3px solid #f59e0b; outline-offset: 3px; }
 .site-header { padding: 1rem max(5vw, 1.25rem); background: var(--accent-dark); }
 .site-header a { color: white; font-weight: 800; text-decoration: none; letter-spacing: .02em; }
 .topnav { display: flex; gap: .35rem; padding: .65rem max(5vw, 1.25rem); background: white; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; }
 .topnav a { padding: .4rem .7rem; color: var(--ink); text-decoration: none; border-radius: .4rem; }
-.topnav a:hover { background: #e8f2f8; }
+.topnav a:hover, .topnav a[aria-current="page"] { background: #e8f2f8; }
 main { width: min(1120px, calc(100% - 2rem)); margin: 0 auto; padding: 2.5rem 0 5rem; }
 footer { padding: 2rem; text-align: center; color: var(--muted); border-top: 1px solid var(--line); }
 h1, h2, h3 { line-height: 1.25; }
@@ -29,8 +38,9 @@ p { max-width: 78ch; }
 .hero { padding: clamp(1rem, 4vw, 3rem) 0 3rem; }
 .hero > p { font-size: 1.1rem; color: var(--muted); }
 .eyebrow { color: var(--warm); font-weight: 800; text-transform: uppercase; letter-spacing: .06em; font-size: .82rem; }
-.entry-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2rem; }
-.entry-grid a { display: flex; flex-direction: column; padding: 1.25rem; background: var(--panel); border: 1px solid var(--line); border-radius: .8rem; text-decoration: none; box-shadow: 0 8px 24px #1e293b0c; }
+.entry-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 2rem; }
+.entry-grid a { display: flex; flex-direction: column; padding: 1.25rem; background: var(--panel); border: 1px solid var(--line); border-radius: .8rem; text-decoration: none; box-shadow: 0 8px 24px #1e293b0c; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+.entry-grid a:hover, .entry-grid a:focus-visible { border-color: #9eb8ca; box-shadow: 0 12px 28px #1e293b16; transform: translateY(-2px); }
 .entry-grid strong { color: var(--ink); font-size: 1.05rem; }
 .entry-grid span { color: var(--muted); }
 .learning-path { display: grid; gap: 1rem; margin-top: 1.5rem; }
@@ -60,14 +70,64 @@ p { max-width: 78ch; }
 .map-level > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
 .map-node a { display: inline-block; margin-top: .7rem; }
 .map-node.targeted, .claim-card.targeted { outline: .28rem solid #f59e0b; outline-offset: .2rem; }
+.button-link { display: inline-block; padding: .65rem 1rem; border-radius: .55rem; background: var(--accent); color: white; text-decoration: none; font-weight: 750; }
+.practice-link { margin: 2rem 0; padding: 1.4rem; border: 1px solid #fed7aa; border-left: .35rem solid var(--warm); border-radius: .8rem; background: #fff7ed; }
+.practice-link h2 { margin: .2rem 0; }
+.tutorial-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+.tutorial-card { padding: 1.4rem; background: white; border: 1px solid var(--line); border-radius: .9rem; }
+.tutorial-card h2 { margin: .2rem 0 .5rem; }
+.tutorial-card.planned { opacity: .68; border-style: dashed; }
+.tutorial-page .lead { max-width: 75ch; color: var(--muted); font-size: 1.15rem; }
+.result-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; margin: 1.8rem 0; }
+.result-summary div { padding: 1rem; border: 1px solid var(--line); border-radius: .75rem; background: white; }
+.result-summary strong { display: block; color: var(--accent); font-size: 1.7rem; line-height: 1.1; }
+.result-summary span { color: var(--muted); font-size: .86rem; }
+.boundary { padding: 1rem; border-left: .3rem solid #dc2626; background: #fff1f2; }
+.neuron-example { margin: 1.25rem 0; padding: 1.2rem; scroll-margin-top: 5.5rem; border: 1px solid var(--line); border-left: .4rem solid var(--driver-color); border-radius: .85rem; background: white; }
+.example-head { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
+.example-head h3 { margin: .25rem 0 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.example-head p { margin: 0; color: var(--muted); font-size: .9rem; }
+.example-head .driver-name { display: flex; align-items: center; gap: .55rem; color: var(--ink); font-size: 1rem; }
+.driver-tag { display: inline-block; padding: .2rem .6rem; border-radius: 999px; color: white; background: var(--driver-color); font-size: .78rem; font-weight: 800; }
+.result-jumps { display: flex; flex-wrap: wrap; gap: .55rem; margin: 1rem 0 1.5rem; }
+.result-jumps a { padding: .45rem .7rem; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--ink); text-decoration: none; font-size: .86rem; font-weight: 700; }
+.result-jumps a:hover, .result-jumps a:focus-visible { border-color: var(--accent); color: var(--accent); }
+.result-scope { margin: 1.25rem 0 2rem; padding: .9rem 1rem; border-radius: .7rem; background: #eef6fb; color: var(--muted); }
+.example-media { --media-stage-height: clamp(246px, 24vw, 320px); display: grid; grid-template-columns: minmax(220px, 35fr) minmax(0, 65fr); gap: 1rem; align-items: stretch; }
+.example-media > .tutorial-media:only-child { grid-column: 1 / -1; }
+.tutorial-media { display: grid; grid-template-rows: var(--media-stage-height) auto; margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: .7rem; background: #080b12; }
+.media-zoom { position: relative; display: grid; place-items: center; width: 100%; height: var(--media-stage-height); min-width: 0; padding: 0; border: 0; background: #080b12; cursor: zoom-in; }
+.tutorial-media img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; }
+.tutorial-media figcaption { padding: .55rem .75rem; background: white; color: var(--muted); font-size: .82rem; }
+.media-lightbox { position: fixed; inset: 0; z-index: 20; display: none; place-items: center; padding: clamp(1rem, 4vw, 2rem); background: #000e; }
+.media-lightbox.open { display: grid; }
+.media-lightbox img { max-width: 96vw; max-height: 90vh; object-fit: contain; }
+.lightbox-close { position: fixed; top: 1rem; right: 1rem; width: 2.75rem; height: 2.75rem; border: 1px solid #ffffff88; border-radius: 50%; background: #111c; color: white; font: 1.6rem/1 sans-serif; cursor: pointer; }
 
 @media (max-width: 850px) {
   .entry-grid, .map-level > div { grid-template-columns: repeat(2, 1fr); }
+  .result-summary { grid-template-columns: repeat(2, 1fr); }
+  .example-media { grid-template-columns: 1fr; }
+  .tutorial-media { grid-template-rows: auto auto; }
+  .media-zoom { height: auto; }
+  .tutorial-media img { position: static; height: auto; }
+  .spin-media .media-zoom { width: min(100%, var(--spin-mobile-width)); max-width: none; aspect-ratio: var(--spin-aspect); margin-inline: auto; }
+  .spin-media img { position: absolute; width: 100%; height: 100%; }
 }
 
 @media (max-width: 600px) {
   .topnav { overflow-x: auto; white-space: nowrap; }
-  .entry-grid, .claim-grid, .concept-grid, .map-level > div { grid-template-columns: 1fr; }
+  .entry-grid, .claim-grid, .concept-grid, .map-level > div, .tutorial-list { grid-template-columns: 1fr; }
+  .example-head { display: block; }
+  .example-head p { margin-top: .6rem; }
   main { width: min(100% - 1.2rem, 1120px); }
+  .result-summary { grid-template-columns: 1fr 1fr; gap: .6rem; }
+  .result-summary div { padding: .8rem; }
+  .neuron-example { padding: .9rem; }
+  .media-lightbox img { max-width: calc(100vw - 2rem); max-height: calc(100vh - 5rem); }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
