@@ -4,12 +4,14 @@ from __future__ import annotations
 import html
 import json
 import re
+import shutil
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
 PAPERS_DIR = ROOT / "papers"
 SITE_DIR = ROOT / "site"
+TUTORIAL_DIR = ROOT / "tutorials" / "ep03-neuron-3d"
 
 
 def load_json(path: Path):
@@ -69,11 +71,12 @@ def markdown_to_html(text: str) -> str:
 def page(title: str, body: str, depth: int = 0) -> str:
     prefix = "../" * depth
     nav = f"""
-    <nav class="topnav">
+    <nav class="topnav" aria-label="主要導覽">
       <a href="{prefix}index.html">學習路徑</a>
       <a href="{prefix}map.html">層級心智圖</a>
       <a href="{prefix}concepts.html">概念 Wiki</a>
       <a href="{prefix}papers.html">論文目錄</a>
+      <a href="{prefix}tutorials.html">實作教材</a>
     </nav>"""
     return f"""<!doctype html>
 <html lang="zh-Hant">
@@ -84,9 +87,10 @@ def page(title: str, body: str, depth: int = 0) -> str:
   <link rel="stylesheet" href="{prefix}assets/style.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">跳到主要內容</a>
   <header class="site-header"><a href="{prefix}index.html">FlyCircuit Connectomics 學習系統</a></header>
   {nav}
-  <main>{body}</main>
+  <main id="main-content" tabindex="-1">{body}</main>
   <footer>由結構化論文資料自動建置 · 原始 PDF 保持唯讀</footer>
   <script src="{prefix}assets/app.js"></script>
 </body>
@@ -136,6 +140,15 @@ def build_paper(paper, type_map, confidence_map):
     tags = "".join(f"<span>{html.escape(x)}</span>" for x in meta["keywords"])
     # application/json 內容必須保留為合法 JSON；只處理可能提前結束 script 的字串。
     metadata = json.dumps(meta, ensure_ascii=False).replace("</", "<\\/")
+    practice = ""
+    if meta["id"] == "chiang-2011-flycircuit":
+        practice = """
+      <section class="practice-link">
+        <p class="eyebrow">從論文走向資料實作</p>
+        <h2>將神經影像視覺化</h2>
+        <p>使用 FlyCircuit 單神經元 AmiraMesh 體積影像，實作 HxZip 解碼、NumPy 三維陣列、最大強度投影與旋轉動畫。</p>
+        <a class="button-link" href="../tutorials/neuron-visualization.html">進入實作教材 →</a>
+      </section>"""
     body = f"""
     <article class="paper-page">
       <div class="eyebrow">核心論文 · 學習順序 {meta['learning_order']}</div>
@@ -147,6 +160,7 @@ def build_paper(paper, type_map, confidence_map):
       </div>
       <div class="tags">{tags}</div>
       <section class="reading-content">{markdown_to_html(paper['content'])}</section>
+      {practice}
       <section>
         <h2>結構化知識節點</h2>
         <p>以下節點用來產生心智圖及依賴關係。每個節點都保留來源與判讀層級。</p>
@@ -176,6 +190,7 @@ def build_index(papers):
         <a href="concepts.html"><strong>我要查概念</strong><span>進入概念 Wiki</span></a>
         <a href="papers.html"><strong>我要找來源</strong><span>進入論文目錄</span></a>
         <a href="map.html"><strong>我要看結構</strong><span>打開層級心智圖</span></a>
+        <a href="tutorials.html"><strong>我要動手做</strong><span>進入實作教材</span></a>
       </div>
     </section>
     <section id="learning">
@@ -183,8 +198,8 @@ def build_index(papers):
       <p>這不是兩篇互不相干的摘要。2011 建立資料與空間架構；2015 將它轉成有方向、有權重的網路。</p>
       <div class="learning-path">{''.join(steps)}</div>
       <div class="next-module">
-        <strong>下一個教材單元</strong>
-        <p>以小型 connectivity matrix 重現 degree／strength、modularity、small-world 與 rich-club 的基本概念。</p>
+        <strong>實作教材已開始</strong>
+        <p><a href="tutorials/neuron-visualization.html">將神經影像視覺化</a>：從 AmiraMesh 體積影像到 NumPy、三視圖與 3D 旋轉動畫。</p>
       </div>
     </section>"""
     return page("學習路徑", body)
@@ -269,10 +284,190 @@ def build_map(papers, type_map):
     return page("層級心智圖", body)
 
 
+def build_tutorials_index():
+    body = """
+    <h1>實作教材</h1>
+    <p>把論文中的資料、方法與限制轉成可重複執行的 Python 實驗；每個單元保留程式、驗證方式與解讀界線。</p>
+    <div class="tutorial-list">
+      <article class="tutorial-card">
+        <p class="eyebrow">神經影像 · Python · 3D</p>
+        <h2><a href="tutorials/neuron-visualization.html">將神經影像視覺化</a></h2>
+        <p>讀取 20 個 FlyCircuit AmiraMesh 單神經元體積影像，完成 HxZip 解碼、資料勘查、最大強度投影與旋轉動畫。</p>
+        <div class="tags"><span>AmiraMesh</span><span>NumPy</span><span>MIP</span><span>點雲旋轉</span></div>
+      </article>
+      <article class="tutorial-card planned">
+        <p class="eyebrow">規劃中</p>
+        <h2>從 connectivity matrix 到網路性質</h2>
+        <p>以小型矩陣重現 degree／strength、modularity、small-world 與 rich-club 的基本概念。</p>
+      </article>
+    </div>"""
+    return page("實作教材", body)
+
+
+def build_neuron_visualization():
+    examples = [
+        {
+            "id": "TH-F-000020",
+            "driver": "TH",
+            "meaning": "多巴胺能",
+            "sex": "雌性",
+            "range": "0–4095",
+            "nonzero": "333,141（2.308%）",
+            "panel": "TH-F-000020-three-views.png",
+            "panel_size": (2007, 713),
+            "spin": "TH-F-000020-spin.webp",
+            "spin_size": (314, 296),
+            "note": "示範密集分枝、細胞本體與長程延伸在三個正交方向的差異。",
+        },
+        {
+            "id": "Tdc2-F-000001",
+            "driver": "Tdc2",
+            "meaning": "章魚胺／酪胺能",
+            "sex": "雌性",
+            "range": "0–255",
+            "nonzero": "404,585（1.354%）",
+            "panel": "Tdc2-F-000001-three-views.png",
+            "panel_size": (2064, 708),
+            "spin": "Tdc2-F-000001-spin.webp",
+            "spin_size": (445, 371),
+            "note": "呈現較寬廣的雙側延伸，適合觀察旋轉時前後分枝如何分離。",
+        },
+        {
+            "id": "Trh-M-100072",
+            "driver": "Trh",
+            "meaning": "血清素能",
+            "sex": "雄性",
+            "range": "0–4095",
+            "nonzero": "313,703（1.737%）",
+            "panel": "Trh-M-100072-three-views.png",
+            "panel_size": (1916, 713),
+            "spin": "Trh-M-100072-spin.webp",
+            "spin_size": (256, 324),
+            "note": "本批資料唯一的雄性樣本；用於展示細長垂直形態在不同投影方向的差異。",
+        },
+        {
+            "id": "VGlut-F-300388",
+            "driver": "VGlut",
+            "meaning": "麩胺酸能",
+            "sex": "雌性",
+            "range": "0–255",
+            "nonzero": "325,836（0.523%）",
+            "panel": "VGlut-F-300388-three-views.png",
+            "panel_size": (2064, 566),
+            "spin": "VGlut-F-300388-spin.webp",
+            "spin_size": (842, 307),
+            "note": "示範跨越寬廣 X 範圍的形態，也說明 255 與 4095 資料需要各自正規化。",
+        },
+        {
+            "id": "Gad1-F-400376",
+            "driver": "Gad1",
+            "meaning": "GABA 能",
+            "sex": "雌性",
+            "range": "0–4095",
+            "nonzero": "335,678（3.400%）",
+            "panel": "Gad1-F-400376-three-views.png",
+            "panel_size": (2050, 713),
+            "spin": "Gad1-F-400376-spin.webp",
+            "spin_size": (298, 277),
+            "note": "呈現較緊密的中央分枝，與長距離延伸型神經元形成形態對照。",
+        },
+        {
+            "id": "fru-F-900054",
+            "driver": "fru",
+            "meaning": "fruitless 表現神經元",
+            "sex": "雌性",
+            "range": "0–4095",
+            "nonzero": "357,176（4.179%）",
+            "panel": "fru-F-900054-three-views.png",
+            "panel_size": (1874, 713),
+            "spin": "fru-F-900054-spin.webp",
+            "spin_size": (212, 303),
+            "note": "本批資料非零 voxel 比例最高，顯示集中且細長的分枝形態。",
+        },
+    ]
+    cards = []
+    for item in examples:
+        spin = ""
+        if item["spin"]:
+            spin = f"""
+          <figure class="tutorial-media spin-media">
+            <button class="media-zoom" type="button" aria-label="放大 {item['id']} 繞 Y 軸旋轉動畫" style="--spin-aspect:{item['spin_size'][0]} / {item['spin_size'][1]};--spin-mobile-width:{min(260, round(280 * item['spin_size'][0] / item['spin_size'][1], 2))}px">
+              <img src="assets/{item['spin']}" alt="{item['id']} 繞 Y 軸旋轉動畫" loading="lazy" width="{item['spin_size'][0]}" height="{item['spin_size'][1]}">
+            </button>
+            <figcaption>36 格灰階旋轉動畫；亮度只表示 voxel 強度。</figcaption>
+          </figure>"""
+        cards.append(f"""
+      <article class="neuron-example" id="result-{item['driver'].lower()}" style="--driver-color:var(--driver-{item['driver'].lower()})">
+        <div class="example-head">
+          <div>
+            <p class="driver-name"><span class="driver-tag">{item['driver']}</span><strong>{item['meaning']}</strong></p>
+            <h3>{item['id']}</h3>
+          </div>
+          <p>{item['sex']} · 強度 {item['range']} · 非零 voxel {item['nonzero']}</p>
+        </div>
+        <p>{item['note']}</p>
+        <div class="example-media">
+          {spin}
+          <figure class="tutorial-media">
+            <button class="media-zoom" type="button" aria-label="放大 {item['id']} XY、XZ、ZY 三視圖">
+              <img src="assets/{item['panel']}" alt="{item['id']} XY、XZ、ZY 三視圖" loading="lazy" width="{item['panel_size'][0]}" height="{item['panel_size'][1]}">
+            </button>
+            <figcaption>XY、XZ、ZY 最大強度投影（MIP）。</figcaption>
+          </figure>
+        </div>
+      </article>""")
+
+    body = f"""
+    <article class="tutorial-page">
+      <p class="eyebrow"><a href="../tutorials.html">實作教材</a> · 神經影像</p>
+      <h1>將神經影像視覺化</h1>
+      <p class="lead">從 20 個陌生的 FlyCircuit <code>.am</code> 檔開始，確認格式、解開 HxZip、還原 NumPy 三維陣列，再產生三視圖與旋轉動畫。</p>
+
+      <section class="result-summary">
+        <div><strong>20</strong><span>單神經元影像</span></div>
+        <div><strong>6</strong><span>driver line</span></div>
+        <div><strong>60</strong><span>MIP 投影</span></div>
+        <div><strong>20</strong><span>旋轉動畫</span></div>
+      </section>
+
+      <section class="reading-content">
+        <h2>這次做了什麼？</h2>
+        <p>原始檔是 AmiraMesh 3D 灰階體積：純文字檔頭加上 HxZip 壓縮的 16-bit <code>ushort</code> 資料。自行撰寫的 <code>amread.py</code> 會解析尺寸與 BoundingBox、使用 zlib 解壓，並以檔頭尺寸交叉驗證解壓位元組數。</p>
+        <p>20 個檔案只有約 0.46%–4.18% voxel 非零，因此投影採最大強度投影（Maximum Intensity Projection, MIP），旋轉則只處理非零 voxel 組成的稀疏點雲。</p>
+
+        <h2>強度如何顯示？</h2>
+        <p>部分檔案的觀察值範圍是 0–255，部分是 0–4095；它們都存放在 16-bit 容器中。為了比較形態而非絕對亮度，每個影像以自身非零值的第 99.5 百分位作為白點，再以 gamma 0.5 顯示較弱細枝。</p>
+        <p class="boundary"><strong>解讀界線：</strong>voxel 強度是影像灰階值，不是突觸數、神經活動或連線權重。不同檔案經個別正規化後適合比較形態，不適合比較絕對訊號強弱。</p>
+
+        <h2>三視圖與旋轉動畫</h2>
+        <p>XY 沿 Z 軸取最大值，XZ 沿 Y 軸，ZY 沿 X 軸。靜態 MIP 會失去深度；旋轉動畫則利用運動視差讓人眼重新感受到前後關係。正式動畫採黑底灰階，driver line 顏色只出現在分類標籤與邊框，不賦予影像不存在的生物意義。</p>
+      </section>
+
+      <section>
+        <h2>六類代表成果</h2>
+        <p>每個 driver line 選一條神經元，先看「標記所關聯的神經傳遞表型」，再比較旋轉動畫與三視圖。這些名稱是遺傳標記分類，<strong>不是神經元所在的解剖腦區</strong>。</p>
+        <nav class="result-jumps" aria-label="六類神經元成果">
+          {''.join(f'<a href="#result-{item["driver"].lower()}">{item["driver"]}｜{item["meaning"]}</a>' for item in examples)}
+        </nav>
+        {''.join(cards)}
+        <p class="result-scope">公開頁呈現六類代表樣本；完整 20 條旋轉動畫、60 張投影、原始影像、程式與開發紀錄仍保留於本機工作區。</p>
+      </section>
+
+      <section class="reading-content">
+        <h2>與 2011 論文的關係</h2>
+        <p>Chiang et al. (2011) 建立 FlyCircuit 單神經元影像、標準腦與影像配準架構；這個實作直接操作已 warp 的單神經元體積，將「共同座標中的神經元影像」從論文概念變成可讀、可驗證的資料處理流程。</p>
+        <p><a class="button-link" href="../papers/chiang-2011-flycircuit.html">回到 2011 核心論文 →</a></p>
+      </section>
+    </article>"""
+    return page("將神經影像視覺化", body, depth=1)
+
+
 def main():
     SITE_DIR.mkdir(parents=True, exist_ok=True)
     (SITE_DIR / "papers").mkdir(exist_ok=True)
     (SITE_DIR / "assets").mkdir(exist_ok=True)
+    (SITE_DIR / "tutorials").mkdir(exist_ok=True)
+    (SITE_DIR / "tutorials" / "assets").mkdir(exist_ok=True)
     types = load_json(ROOT / "config" / "knowledge-types.json")
     type_map = {x["id"]: x for x in types["types"]}
     confidence_map = types["confidence"]
@@ -282,6 +477,10 @@ def main():
     (SITE_DIR / "papers.html").write_text(build_papers_page(papers), encoding="utf-8")
     (SITE_DIR / "concepts.html").write_text(build_concepts(papers, type_map), encoding="utf-8")
     (SITE_DIR / "map.html").write_text(build_map(papers, type_map), encoding="utf-8")
+    (SITE_DIR / "tutorials.html").write_text(build_tutorials_index(), encoding="utf-8")
+    (SITE_DIR / "tutorials" / "neuron-visualization.html").write_text(
+        build_neuron_visualization(), encoding="utf-8"
+    )
     for paper in papers:
         output = SITE_DIR / "papers" / f"{paper['meta']['id']}.html"
         output.write_text(build_paper(paper, type_map, confidence_map), encoding="utf-8")
@@ -289,7 +488,14 @@ def main():
     for asset in (ROOT / "assets").iterdir():
         if asset.is_file():
             (SITE_DIR / "assets" / asset.name).write_bytes(asset.read_bytes())
-    print(f"Built {len(papers)} papers and {sum(len(p['claims']) for p in papers)} knowledge nodes in {SITE_DIR}")
+    public_assets = TUTORIAL_DIR / "public-assets"
+    for asset in public_assets.iterdir():
+        if asset.is_file():
+            shutil.copy2(asset, SITE_DIR / "tutorials" / "assets" / asset.name)
+    print(
+        f"Built {len(papers)} papers, {sum(len(p['claims']) for p in papers)} knowledge nodes, "
+        f"and 1 tutorial in {SITE_DIR}"
+    )
 
 
 if __name__ == "__main__":

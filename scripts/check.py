@@ -107,7 +107,21 @@ def main():
         if not path.exists() and not args.allow_missing_sources:
             ERRORS.append(f"找不到原始 PDF：{path}")
 
-    expected = ["index.html", "papers.html", "concepts.html", "map.html", "assets/style.css", "assets/app.js"]
+    expected = [
+        "index.html",
+        "papers.html",
+        "concepts.html",
+        "map.html",
+        "tutorials.html",
+        "tutorials/neuron-visualization.html",
+        "tutorials/assets/TH-F-000020-three-views.png",
+        "tutorials/assets/TH-F-000020-spin.webp",
+        "tutorials/assets/VGlut-F-300388-three-views.png",
+        "tutorials/assets/VGlut-F-300388-spin.webp",
+        "tutorials/assets/Gad1-F-400376-three-views.png",
+        "assets/style.css",
+        "assets/app.js",
+    ]
     for relative in expected:
         if not (ROOT / "site" / relative).exists():
             ERRORS.append(f"缺少建置產物：site/{relative}")
